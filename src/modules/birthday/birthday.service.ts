@@ -6,53 +6,72 @@ import { CreateBirthdayDTO } from './dtos/create-birthday.dto';
 export class BirthdayService {
     constructor(private prisma: PrismaService) {}
     
-    async create(data: CreateBirthdayDTO){
-        const userExists = this.prisma.user.findFirst({
-            where: {
-                email: data.email
+    async create(id: string, data: CreateBirthdayDTO){
+        // const birthday = null;
+
+        // if (birthdayData.likes.length > 0) birthday
+        // if (birthdayData.specialMoments.length > 0) birthday
+
+        const birthday = await this.prisma.birthday.create({
+            data: {
+                firstName: data.firstName,
+                lastName: data. lastName,
+                surname: data.surname,
+                gender: data.gender,
+                birthdate: data.birthdate,
+                userId: id
             }
         });
 
-        if(userExists) throw new Error("User already exists");
+        return birthday;
+    }
 
-        const user = await this.prisma.user.create({
-            data
+    async getAll(userId: string){
+        const birthdays = await this.prisma.birthday.findMany({
+            where: {
+                userId: userId
+            },
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                surname: true,
+                gender: true,
+                birthdate: true,
+                likes: true,
+            }
         });
 
-        return user;
+        return birthdays;
     }
 
-    async getAll(){
-        return this.prisma.user.findMany();
-    }
-
-    async findUserById(id: string) {
-        const user = await this.prisma.user.findUnique({
+    async getBirthdayById(birthdayId: string){
+        const birthdays = await this.prisma.birthday.findMany({
             where: {
-                id: id,
+                id: birthdayId
             },
-        })
+        });
 
-        return user;
+        return birthdays;
     }
 
-    async editUser(id: string, data: CreateBirthdayDTO) {
-        const userEdit = await this.prisma.user.update({
-            where: { id: id},
+    async update(birthdayId: string, data: CreateBirthdayDTO) {
+        const userEdit = await this.prisma.birthday.update({
+            where: { id: birthdayId},
             data: { 
                 firstName: data.firstName,
                 lastName: data.lastName,
+                surname: data.surname,
                 birthdate: data.birthdate,
                 gender: data.gender,
-                email: data.email,
             }
         });
 
         return userEdit;
     }
 
-    async deleteUser(id: string){
-        return this.prisma.user.delete({
+    async delete(id: string){
+        return this.prisma.birthday.delete({
             where: {
                 id: id,
             },

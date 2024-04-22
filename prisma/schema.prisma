@@ -27,9 +27,8 @@ model Birthday {
   gender String
   birthdate DateTime
   likes Like[]
-  specialMoments SpecialMoment[]
 
-  user User?          @relation(fields: [userId], references: [id])
+  user User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   @@map("birthdays")
@@ -37,21 +36,10 @@ model Birthday {
 
 model Like {
   id String           @id @default(uuid())
-  description String 
+  description String  @unique 
 
-  birthday Birthday?          @relation(fields: [birthdayId], references: [id], onDelete: Cascade)
+  birthday Birthday?  @relation(fields: [birthdayId], references: [id], onDelete: Cascade)
   birthdayId String
 
   @@map("likes")
-}
-
-model SpecialMoment {
-  id String           @id @default(uuid()) 
-  url String
-  createdAt DateTime  @default(now())
-
-  birthday Birthday?          @relation(fields: [birthdayId], references: [id], onDelete: Cascade)
-  birthdayId String
-
-  @@map("specialMoments")
 }

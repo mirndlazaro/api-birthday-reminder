@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String           @id @default(uuid())
+  firstName String
+  lastName String 
+  gender String?
+  email String        @unique
+  birthdate DateTime? 
+  birthdays Birthday[]
+
+  @@map("users")
+}
+
+model Birthday {
+  id String           @id @default(uuid())
+  firstName String
+  lastName String
+  surname String
+  gender String
+  birthdate DateTime
+  likes Like[]
+  specialMoments SpecialMoment[]
+
+  user User?          @relation(fields: [userId], references: [id])
+  userId String
+
+  @@map("birthdays")
+}
+
+model Like {
+  id String           @id @default(uuid())
+  description String 
+
+  birthday Birthday?          @relation(fields: [birthdayId], references: [id], onDelete: Cascade)
+  birthdayId String
+
+  @@map("likes")
+}
+
+model SpecialMoment {
+  id String           @id @default(uuid()) 
+  url String
+  createdAt DateTime  @default(now())
+
+  birthday Birthday?          @relation(fields: [birthdayId], references: [id], onDelete: Cascade)
+  birthdayId String
+
+  @@map("specialMoments")
+}

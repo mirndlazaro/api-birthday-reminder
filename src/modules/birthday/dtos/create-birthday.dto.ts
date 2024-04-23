@@ -52,7 +52,6 @@ export enum UserGender {
     readonly birthdate: Date
 
     @IsArray()
-    @Type(() => CreateLikeDTO[])
     @ApiProperty({ 
         example: `[ { "description": "Like" }]`, 
         required: false 

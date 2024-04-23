@@ -12,6 +12,7 @@ model User {
   firstName String
   lastName String 
   gender String?
+  password String
   email String        @unique
   birthdate DateTime? 
   birthdays Birthday[]

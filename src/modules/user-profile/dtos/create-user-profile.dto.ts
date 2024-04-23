@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsObject, IsString, MaxDate } from "class-validator";
+import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsObject, IsString, IsStrongPassword, MaxDate } from "class-validator";
 
 export enum UserGender {
     Homem = 'Homem',
@@ -23,6 +23,14 @@ export class CreateUserDTO {
     @IsNotEmpty()
     @IsString()
     readonly lastName: string;
+
+    @ApiProperty({
+        example: 'das372ouwjms@#csd',
+        required: true
+    })
+    @IsNotEmpty()
+    @IsStrongPassword()
+    readonly password: string;
 
     @ApiProperty({
         example: 'user@gmail.com',

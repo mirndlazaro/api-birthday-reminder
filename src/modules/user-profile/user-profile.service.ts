@@ -37,6 +37,14 @@ export class UserProfileService {
         return user;
     }
 
+    async findOne(username: string) {
+        return this.prisma.user.findUnique({
+            where: {
+                email: username 
+            }
+        });
+    }
+
     async editUser(id: string, data: UpdateUserDTO): Promise<any> {
         const userEdit = await this.prisma.user.update({
             where: { id: id},

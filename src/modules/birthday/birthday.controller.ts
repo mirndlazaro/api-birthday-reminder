@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { BirthdayService } from './birthday.service';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateBirthdayDTO } from './dtos/create-birthday.dto';
 
 @Controller('birthday')
@@ -8,6 +8,7 @@ export class BirthdayController {
   constructor(private readonly birthdayService: BirthdayService, ) {}
 
   @ApiTags('Birthday')
+  @ApiOperation({ summary: 'Get all birthdays' })
   @Get(':userId')
   async getAll(@Param('userId') id: string){
     try {
@@ -18,6 +19,7 @@ export class BirthdayController {
   }
 
   @ApiTags('Birthday')
+  @ApiOperation({ summary: 'Get birthday by ID' })
   @Get(':birthdayId')
   async getById(@Param('birthdayId') id: string){
     try {
@@ -28,6 +30,7 @@ export class BirthdayController {
   }
 
   @ApiTags('Birthday')
+  @ApiOperation({ summary: 'Create birthday' })
   @Post(':userId')
   @ApiResponse({ status: 201, description: 'The record has been successfully created.'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
@@ -44,6 +47,7 @@ export class BirthdayController {
   }
 
   @ApiTags('Birthday')
+  @ApiOperation({ summary: 'Update birthday' })
   @Put(':birthdayId')
   @ApiBody({
     type: CreateBirthdayDTO,
@@ -58,6 +62,7 @@ export class BirthdayController {
   }
 
   @ApiTags('Birthday')
+  @ApiOperation({ summary: 'Delete birthday' })
   @Delete(':birthdayId')
   async DeleteLike(@Param('birthdayId') birthdayId: string){
     try {

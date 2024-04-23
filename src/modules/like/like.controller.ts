@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { LikeService } from './like.service';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateLikeDTO } from './dtos/create-like.dto';
 
 @Controller('like')
@@ -8,6 +8,7 @@ export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 
   @ApiTags('Like')
+  @ApiOperation({ summary: 'Get all likes' })
   @Get(':birthdayId')
   async getAll(@Param('birthdayId') id: string){
     try {
@@ -18,6 +19,7 @@ export class LikeController {
   }
 
   @ApiTags('Like')
+  @ApiOperation({ summary: 'Get like by ID' })
   @Get(':likeId')
   async getLikeById(@Param('likeId') id: string){
     try {
@@ -28,6 +30,7 @@ export class LikeController {
   }
 
   @ApiTags('Like')
+  @ApiOperation({ summary: 'Create like' })
   @Post(':birthdayId')
   @ApiResponse({ status: 201, description: 'The record has been successfully created.'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
@@ -44,6 +47,7 @@ export class LikeController {
   }
 
   @ApiTags('Like')
+  @ApiOperation({ summary: 'Update like' })
   @Put(':id')
   @ApiBody({
     type: CreateLikeDTO,
@@ -58,6 +62,7 @@ export class LikeController {
   }
 
   @ApiTags('Like')
+  @ApiOperation({ summary: 'Delete like' })
   @Delete(':likeId')
   async DeleteLike(@Param('likeId') likeId: string){
     try {

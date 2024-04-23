@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { Like } from "@prisma/client"
 import { Type } from "class-transformer"
-import { IsArray, IsDate, IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { IsArray, IsDate, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { CreateLikeDTO } from "src/modules/like/dtos/create-like.dto"
 
 export enum UserGender {
     Homem = 'Homem',
@@ -38,6 +39,7 @@ export enum UserGender {
         example: "Homem | Mulher", 
         required: false
     })
+    @IsEnum(UserGender)
     readonly gender: UserGender|string;
 
     @ApiProperty({ 
@@ -49,6 +51,7 @@ export enum UserGender {
     readonly birthdate: Date
 
     @IsArray()
+    @Type(() => CreateLikeDTO)
     @ApiProperty({ 
         example: `[ { "description": "Like" }]`, 
         required: false 

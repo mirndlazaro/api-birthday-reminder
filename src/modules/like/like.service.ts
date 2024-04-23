@@ -6,7 +6,7 @@ import { CreateLikeDTO } from './dtos/create-like.dto';
 export class LikeService {
     constructor(private prisma: PrismaService){}
 
-    async getAll(id: string){
+    async getAll(id: string): Promise<CreateLikeDTO[]>{
         return this.prisma.like.findMany({
             where: {
                 birthdayId: id,
@@ -14,15 +14,15 @@ export class LikeService {
         });
     }
 
-    async getById(id: string){
-        return this.prisma.like.findMany({
+    async getById(id: string): Promise<CreateLikeDTO>{
+        return this.prisma.like.findUnique({
             where: {
                 id: id,
             }
         });
     }
 
-    async create(id: string, data: CreateLikeDTO){
+    async create(id: string, data: CreateLikeDTO): Promise<CreateLikeDTO>{
         const like = await this.prisma.like.create({
             data: {
                 birthdayId: id,
@@ -33,7 +33,7 @@ export class LikeService {
         return like;
     }
 
-    async update(id: string, data: CreateLikeDTO){
+    async update(id: string, data: CreateLikeDTO): Promise<CreateLikeDTO>{
         const like = await this.prisma.like.update({
             where: {
                 id: id
@@ -46,7 +46,7 @@ export class LikeService {
         return like;
     }
 
-    async delete(likeId: string){
+    async delete(likeId: string): Promise<CreateLikeDTO>{
         return this.prisma.like.delete({
             where: {
                 id: likeId,

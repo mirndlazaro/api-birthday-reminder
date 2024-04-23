@@ -3,7 +3,7 @@ import { LikeService } from './like.service';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateLikeDTO } from './dtos/create-like.dto';
 
-@Controller('api/v1/like')
+@Controller('like')
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 

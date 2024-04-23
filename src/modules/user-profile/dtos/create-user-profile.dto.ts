@@ -1,5 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsEmail, IsNotEmpty } from "class-validator";
+import { Birthday } from "@prisma/client";
+import { Type } from "class-transformer";
+import { IsArray, IsDate, IsEmail, IsNotEmpty, IsObject } from "class-validator";
 
 export enum UserGender {
     Homem = 'Homem',
@@ -28,10 +30,17 @@ export class CreateUserDTO {
     @IsEmail()
     readonly email: string;
 
-    @ApiProperty({ example: "Homem | Mulher"})
+    @ApiProperty({ 
+        example: "Homem | Mulher", 
+        required: false
+    })
     readonly gender: UserGender;
 
-    @ApiProperty({ example: '2019-10-14T16:57:01.000Z' })
+    @ApiProperty({ 
+        example: '2019-10-14T16:57:01.000Z', 
+        required: false 
+    })
     @IsDate()
-    readonly birthdate: string;
+    @Type(() => Date)
+    readonly birthdate: Date;
 }

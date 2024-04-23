@@ -28,7 +28,7 @@ model Birthday {
   birthdate DateTime
   likes Like[]
 
-  user User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   @@map("birthdays")
@@ -38,7 +38,7 @@ model Like {
   id String           @id @default(uuid())
   description String  @unique 
 
-  birthday Birthday?  @relation(fields: [birthdayId], references: [id], onDelete: Cascade)
+  birthday Birthday  @relation(fields: [birthdayId], references: [id], onDelete: Cascade)
   birthdayId String
 
   @@map("likes")

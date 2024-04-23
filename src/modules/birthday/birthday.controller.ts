@@ -3,7 +3,7 @@ import { BirthdayService } from './birthday.service';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateBirthdayDTO } from './dtos/create-birthday.dto';
 
-@Controller('api/v1/birthday')
+@Controller('birthday')
 export class BirthdayController {
   constructor(private readonly birthdayService: BirthdayService, ) {}
 

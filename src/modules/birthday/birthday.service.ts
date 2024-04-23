@@ -6,27 +6,34 @@ import { CreateBirthdayDTO } from './dtos/create-birthday.dto';
 export class BirthdayService {
     constructor(private prisma: PrismaService) {}
     
-    async create(id: string, data: CreateBirthdayDTO){
-        // const birthday = null;
-
-        // if (birthdayData.likes.length > 0) birthday
-        // if (birthdayData.specialMoments.length > 0) birthday
-
+    async create(id: string, data: CreateBirthdayDTO): Promise<CreateBirthdayDTO>{
         const birthday = await this.prisma.birthday.create({
             data: {
+                userId: id,
                 firstName: data.firstName,
                 lastName: data. lastName,
                 surname: data.surname,
                 gender: data.gender,
                 birthdate: data.birthdate,
-                userId: id
+                likes: {
+                    create: data.likes
+                }
+            },
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                surname: true,
+                gender: true,
+                birthdate: true,
+                likes: true,
             }
         });
 
         return birthday;
     }
 
-    async getAll(userId: string){
+    async getAll(userId: string): Promise<any[]>{
         const birthdays = await this.prisma.birthday.findMany({
             where: {
                 userId: userId
@@ -45,7 +52,7 @@ export class BirthdayService {
         return birthdays;
     }
 
-    async getBirthdayById(birthdayId: string){
+    async getBirthdayById(birthdayId: string): Promise<any>{
         const birthdays = await this.prisma.birthday.findMany({
             where: {
                 id: birthdayId
@@ -55,9 +62,9 @@ export class BirthdayService {
         return birthdays;
     }
 
-    async update(birthdayId: string, data: CreateBirthdayDTO) {
+    async update(birthdayId: string, data: CreateBirthdayDTO): Promise<CreateBirthdayDTO> {
         const userEdit = await this.prisma.birthday.update({
-            where: { id: birthdayId},
+            where: { id: birthdayId },
             data: { 
                 firstName: data.firstName,
                 lastName: data.lastName,
@@ -70,7 +77,7 @@ export class BirthdayService {
         return userEdit;
     }
 
-    async delete(id: string){
+    async delete(id: string): Promise<CreateBirthdayDTO>{
         return this.prisma.birthday.delete({
             where: {
                 id: id,

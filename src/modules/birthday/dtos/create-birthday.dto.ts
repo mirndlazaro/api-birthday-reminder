@@ -1,13 +1,57 @@
-import { Like, SpecialMoment } from "@prisma/client"
+import { ApiProperty } from "@nestjs/swagger"
+import { Like } from "@prisma/client"
+import { Type } from "class-transformer"
+import { IsArray, IsDate, IsNotEmpty, IsOptional, IsString } from "class-validator"
 
-export class CreateBirthdayDTO {
+export enum UserGender {
+    Homem = 'Homem',
+    Mulher = 'Mulher',
+ }
+
+ export class CreateBirthdayDTO {
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ 
+        example: "Jhon", 
+        required: true
+    })
     readonly firstName: string
-    readonly lastName: string
-    readonly surname: string
-    readonly gender: string
-    readonly birthdate: Date
-    readonly likes?: Like[]
-    readonly specialMoments?: SpecialMoment[]
 
-    readonly userId: string
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ 
+        example: "Due", 
+        required: true
+    })
+    readonly lastName: string
+    
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiProperty({ 
+        example: "Dude", 
+        required: false
+    })
+    readonly surname: string
+
+    @ApiProperty({ 
+        example: "Homem | Mulher", 
+        required: false
+    })
+    readonly gender: UserGender|string;
+
+    @ApiProperty({ 
+        example: '2019-10-14T16:57:01.000Z', 
+        required: false 
+    })
+    @IsDate()
+    @Type(() => Date)
+    readonly birthdate: Date
+
+    @IsArray()
+    @ApiProperty({ 
+        example: `[ { "description": "Like" }]`, 
+        required: false 
+    })
+    readonly likes?: Like[]
 }
